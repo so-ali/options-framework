@@ -1,0 +1,21 @@
+:root{
+    --soali-options--primary-color: #2271b1;
+}
+
+.soali_options-theme-dark .soali_options-nav-background{
+    background-color: #fafafa;
+    border-left: #eee 1px solid;
+}
+.soali_options-theme-dark .soali_options-nav ul li a{
+    background-color: transparent !important;
+    color: #555 !important;
+    border-color: #eee;
+}
+.soali_options-theme-dark .soali_options-nav ul li .soali_options-active{
+    background-color: #eee !important;
+    color: var(--soali-options--primary-color, #000) !important;
+}
+
+.soali_options-woocommerce-metabox{
+    margin: 0;
+}

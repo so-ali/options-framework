@@ -22,7 +22,7 @@ if (!class_exists('SOALI_OPTIONS_Woocommerce_Metabox')) {
         public $args = array(
             'title' => '',
             'post_type' => 'product',
-            'data_type' => 'serialize',
+            'data_type' => '',
             'context' => 'advanced',
             'priority' => 200,
             'page_templates' => '',

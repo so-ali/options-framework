@@ -19,3 +19,7 @@
 .soali_options-woocommerce-metabox{
     margin: 0;
 }
+
+.chosen-container-single .chosen-results{
+    width: 100%;
+}

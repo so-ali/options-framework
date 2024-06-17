@@ -19,7 +19,7 @@ if ( ! class_exists( 'SOALI_OPTIONS_Metabox' ) ) {
     public $args           = array(
       'title'              => '',
       'post_type'          => 'post',
-      'data_type'          => 'serialize',
+      'data_type'          => '',
       'context'            => 'advanced',
       'priority'           => 'default',
       'exclude_post_types' => array(),

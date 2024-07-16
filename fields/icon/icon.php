@@ -39,6 +39,7 @@ if ( ! class_exists( 'SOALI_OPTIONS_Field_icon' ) ) {
 
     public function enqueue() {
       add_action( 'admin_footer', array( 'SOALI_OPTIONS_Field_icon', 'add_footer_modal_icon' ) );
+      add_action( 'wp_footer', array( 'SOALI_OPTIONS_Field_icon', 'add_footer_modal_icon' ) );
       add_action( 'customize_controls_print_footer_scripts', array( 'SOALI_OPTIONS_Field_icon', 'add_footer_modal_icon' ) );
     }
 

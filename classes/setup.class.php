@@ -30,6 +30,7 @@ if (!class_exists('SOALI_OPTIONS_Setup')) {
             'customize_options' => array(),
             'metabox_options' => array(),
             'woocommerce_metabox_options' => array(),
+            'custom_form_options' => array(),
             'nav_menu_options' => array(),
             'profile_options' => array(),
             'taxonomy_options' => array(),
@@ -73,13 +74,12 @@ if (!class_exists('SOALI_OPTIONS_Setup')) {
             // Init action
             do_action('soali_options_init');
 
-            // Setup textdomain
-            self::textdomain();
-
+            add_action('init',[self::class,'textdomain']);
             add_action('after_setup_theme', array('SOALI_OPTIONS', 'setup'));
             add_action('init', array('SOALI_OPTIONS', 'setup'));
             add_action('switch_theme', array('SOALI_OPTIONS', 'setup'));
             add_action('admin_enqueue_scripts', array('SOALI_OPTIONS', 'add_admin_enqueue_scripts'));
+            add_action('wp_enqueue_scripts', array('SOALI_OPTIONS', 'add_enqueue_scripts'));
             add_action('wp_enqueue_scripts', array('SOALI_OPTIONS', 'add_typography_enqueue_styles'), 80);
             add_action('wp_head', array('SOALI_OPTIONS', 'add_custom_css'), 80);
             add_filter('admin_body_class', array('SOALI_OPTIONS', 'add_admin_body_class'));
@@ -159,6 +159,22 @@ if (!class_exists('SOALI_OPTIONS_Setup')) {
                         self::$inited[$key] = true;
 
                         SOALI_OPTIONS_Woocommerce_Metabox::instance($key, $params);
+
+                    }
+                }
+            }
+
+            // Setup custom form option framework
+            $params = array();
+            if (class_exists('SOALI_OPTIONS_CUSTOM_FORM') && !empty(self::$args['custom_form_options'])) {
+                foreach (self::$args['custom_form_options'] as $key => $value) {
+                    if (!empty(self::$args['sections'][$key]) && !isset(self::$inited[$key])) {
+
+                        $params['args'] = $value;
+                        $params['sections'] = self::$args['sections'][$key];
+                        self::$inited[$key] = true;
+
+                        SOALI_OPTIONS_CUSTOM_FORM::instance($key, $params);
 
                     }
                 }
@@ -296,6 +312,12 @@ if (!class_exists('SOALI_OPTIONS_Setup')) {
         public static function createWoocommerceMetabox($id, $args = array())
         {
             self::$args['woocommerce_metabox_options'][$id] = $args;
+        }
+
+        // Create custom form options
+        public static function createCustomForm($id, $args = array())
+        {
+            self::$args['custom_form_options'][$id] = $args;
         }
 
         // Create menu options
@@ -437,6 +459,7 @@ if (!class_exists('SOALI_OPTIONS_Setup')) {
             self::include_plugin_file('classes/admin-options.class.php');
             self::include_plugin_file('classes/metabox-options.class.php');
             self::include_plugin_file('classes/woocommerce-metabox-options.class.php');
+            self::include_plugin_file('classes/custom-form-options.class.php');
 
             // Include premium version classes
             if (self::$premium) {
@@ -547,6 +570,21 @@ if (!class_exists('SOALI_OPTIONS_Setup')) {
 
         }
 
+        public static function add_enqueue_scripts()
+        {
+            if (self::$enqueue) {
+                return;
+            }
+
+            if (!empty(self::$args['custom_form_options'])) {
+                self::$enqueue = true;
+            }
+
+            if (self::$enqueue) {
+            self::enqueue_scripts();
+            }
+        }
+
         // Enqueue admin and fields styles and scripts
         public static function add_admin_enqueue_scripts()
         {
@@ -622,6 +660,11 @@ if (!class_exists('SOALI_OPTIONS_Setup')) {
 
             }
 
+            self::enqueue_scripts();
+        }
+        public static function enqueue_scripts()
+        {
+
             if (!apply_filters('soali_options_enqueue_assets', self::$enqueue)) {
                 return;
             }
@@ -631,7 +674,7 @@ if (!class_exists('SOALI_OPTIONS_Setup')) {
 
             // Wp color picker
             wp_enqueue_style('wp-color-picker');
-            wp_enqueue_script('wp-color-picker');
+            wp_enqueue_script('jquery-ui');
 
             // Font awesome 4 and 5 loader
             if (apply_filters('soali_options_fa4', false)) {
@@ -655,6 +698,7 @@ if (!class_exists('SOALI_OPTIONS_Setup')) {
             wp_enqueue_style('soali_options_custom_styles', self::include_plugin_url('assets/css/custom-styles.css'), array(), self::$version, 'all');
 
             // Main scripts
+            wp_enqueue_script('soali-wp-color-picker', self::include_plugin_url('assets/js/color-picker.js'), array(), self::$version, true);
             wp_enqueue_script('soali_options-plugins', self::include_plugin_url('assets/js/plugins' . $min . '.js'), array(), self::$version, true);
             wp_enqueue_script('soali_options', self::include_plugin_url('assets/js/main' . $min . '.js'), array('soali_options-plugins'), self::$version, true);
 
@@ -674,15 +718,17 @@ if (!class_exists('SOALI_OPTIONS_Setup')) {
 
             if (!empty(self::$fields)) {
                 foreach (self::$fields as $field) {
-                    if (!empty($field['type'])) {
-                        $classname = 'SOALI_OPTIONS_Field_' . $field['type'];
-                        if (class_exists($classname) && method_exists($classname, 'enqueue')) {
-                            $instance = new $classname($field);
-                            if (method_exists($classname, 'enqueue')) {
-                                $instance->enqueue();
-                            }
-                            unset($instance);
+                    if (empty($field['type'])) {
+                        continue;
+                    }
+
+                    $classname = 'SOALI_OPTIONS_Field_' . $field['type'];
+                    if (class_exists($classname) && method_exists($classname, 'enqueue')) {
+                        $instance = new $classname($field);
+                        if (method_exists($classname, 'enqueue')) {
+                            $instance->enqueue();
                         }
+                        unset($instance);
                     }
                 }
             }

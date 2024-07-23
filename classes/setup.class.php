@@ -3,7 +3,7 @@
 } // Cannot access directly.
 /**
  *
- * Setup Class
+ * Menu Class
  *
  * @since 1.0.0
  * @version 1.0.0
@@ -86,14 +86,14 @@ if (!class_exists('SOALI_OPTIONS_Setup')) {
 
         }
 
-        // Setup frameworks
+        // Menu frameworks
         public static function setup()
         {
 
             // Welcome
             self::include_plugin_file('views/welcome.php');
 
-            // Setup admin option framework
+            // Menu admin option framework
             $params = array();
             if (class_exists('SOALI_OPTIONS_Options') && !empty(self::$args['admin_options'])) {
                 foreach (self::$args['admin_options'] as $key => $value) {
@@ -116,7 +116,7 @@ if (!class_exists('SOALI_OPTIONS_Setup')) {
                 }
             }
 
-            // Setup customize option framework
+            // Menu customize option framework
             $params = array();
             if (class_exists('SOALI_OPTIONS_Customize_Options') && !empty(self::$args['customize_options'])) {
                 foreach (self::$args['customize_options'] as $key => $value) {
@@ -132,7 +132,7 @@ if (!class_exists('SOALI_OPTIONS_Setup')) {
                 }
             }
 
-            // Setup metabox option framework
+            // Menu metabox option framework
             $params = array();
             if (class_exists('SOALI_OPTIONS_Metabox') && !empty(self::$args['metabox_options'])) {
                 foreach (self::$args['metabox_options'] as $key => $value) {
@@ -148,7 +148,7 @@ if (!class_exists('SOALI_OPTIONS_Setup')) {
                 }
             }
 
-            // Setup woocommerce metabox option framework
+            // Menu woocommerce metabox option framework
             $params = array();
             if (class_exists('SOALI_OPTIONS_Woocommerce_Metabox') && !empty(self::$args['woocommerce_metabox_options'])) {
                 foreach (self::$args['woocommerce_metabox_options'] as $key => $value) {
@@ -164,7 +164,7 @@ if (!class_exists('SOALI_OPTIONS_Setup')) {
                 }
             }
 
-            // Setup custom form option framework
+            // Menu custom form option framework
             $params = array();
             if (class_exists('SOALI_OPTIONS_CUSTOM_FORM') && !empty(self::$args['custom_form_options'])) {
                 foreach (self::$args['custom_form_options'] as $key => $value) {
@@ -180,7 +180,7 @@ if (!class_exists('SOALI_OPTIONS_Setup')) {
                 }
             }
 
-            // Setup nav menu option framework
+            // Menu nav menu option framework
             $params = array();
             if (class_exists('SOALI_OPTIONS_Nav_Menu_Options') && !empty(self::$args['nav_menu_options'])) {
                 foreach (self::$args['nav_menu_options'] as $key => $value) {
@@ -196,7 +196,7 @@ if (!class_exists('SOALI_OPTIONS_Setup')) {
                 }
             }
 
-            // Setup profile option framework
+            // Menu profile option framework
             $params = array();
             if (class_exists('SOALI_OPTIONS_Profile_Options') && !empty(self::$args['profile_options'])) {
                 foreach (self::$args['profile_options'] as $key => $value) {
@@ -212,7 +212,7 @@ if (!class_exists('SOALI_OPTIONS_Setup')) {
                 }
             }
 
-            // Setup taxonomy option framework
+            // Menu taxonomy option framework
             $params = array();
             if (class_exists('SOALI_OPTIONS_Taxonomy_Options') && !empty(self::$args['taxonomy_options'])) {
                 $taxonomy = (isset($_GET['taxonomy'])) ? sanitize_text_field(wp_unslash($_GET['taxonomy'])) : '';
@@ -229,7 +229,7 @@ if (!class_exists('SOALI_OPTIONS_Setup')) {
                 }
             }
 
-            // Setup widget option framework
+            // Menu widget option framework
             if (class_exists('SOALI_OPTIONS_Widget') && class_exists('WP_Widget_Factory') && !empty(self::$args['widget_options'])) {
                 $wp_widget_factory = new WP_Widget_Factory();
                 global $wp_widget_factory;
@@ -243,7 +243,7 @@ if (!class_exists('SOALI_OPTIONS_Setup')) {
                 }
             }
 
-            // Setup comment option framework
+            // Menu comment option framework
             $params = array();
             if (class_exists('SOALI_OPTIONS_Comment_Metabox') && !empty(self::$args['comment_options'])) {
                 foreach (self::$args['comment_options'] as $key => $value) {
@@ -259,7 +259,7 @@ if (!class_exists('SOALI_OPTIONS_Setup')) {
                 }
             }
 
-            // Setup shortcode option framework
+            // Menu shortcode option framework
             $params = array();
             if (class_exists('SOALI_OPTIONS_Shortcoder') && !empty(self::$args['shortcode_options'])) {
                 foreach (self::$args['shortcode_options'] as $key => $value) {
@@ -530,7 +530,7 @@ if (!class_exists('SOALI_OPTIONS_Setup')) {
 
         }
 
-        // Setup textdomain
+        // Menu textdomain
         public static function textdomain()
         {
             load_textdomain('soali_options', self::$dir . '/languages/' . get_locale() . '.mo');
@@ -905,7 +905,7 @@ SOALI_OPTIONS_Setup::init(__FILE__, false);
 
 /**
  *
- * Extended Setup Class for Shortland
+ * Extended Menu Class for Shortland
  *
  * @since 1.0.0
  * @version 1.0.0

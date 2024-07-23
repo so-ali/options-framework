@@ -65,7 +65,7 @@ if ( ! class_exists( 'SOALI_OPTIONS_Field_wp_editor' ) ) {
 
     }
 
-    // Setup wp editor media buttons
+    // Menu wp editor media buttons
     public function setup_wp_editor_media_buttons() {
 
       if ( ! function_exists( 'media_buttons' ) ) {
@@ -84,7 +84,7 @@ if ( ! class_exists( 'SOALI_OPTIONS_Field_wp_editor' ) ) {
 
     }
 
-    // Setup wp editor settings
+    // Menu wp editor settings
     public function setup_wp_editor_settings() {
 
       if ( soali_options_wp_editor_api() && class_exists( '_WP_Editors') ) {
